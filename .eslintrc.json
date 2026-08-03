@@ -1,0 +1,14 @@
+{
+  "extends": "athom/homey-app",
+  "overrides": [
+    {
+      "files": [
+        "lib/Waiter.js",
+        "test/**/*.js"
+      ],
+      "rules": {
+        "homey-app/global-timers": "off"
+      }
+    }
+  ]
+}

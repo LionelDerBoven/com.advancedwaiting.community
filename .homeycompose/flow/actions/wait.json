@@ -1,0 +1,63 @@
+{
+  "id": "wait",
+  "title": {
+    "en": "Wait",
+    "nl": "Wacht",
+    "fr": "Attendre"
+  },
+  "titleFormatted": {
+    "en": "Wait [[duration]] [[unit]]",
+    "nl": "Wacht [[duration]] [[unit]]",
+    "fr": "Attendre [[duration]] [[unit]]"
+  },
+  "hint": {
+    "en": "Pauses here and lets the Flow carry on afterwards. In an Advanced Flow the next card runs once this one is done, which is what makes it usable for timing. In a standard Flow the Then cards are not run in order, so put this card in the And column instead. Maximum 85 seconds: Homey ends a Flow that waits any longer. For longer pauses use Homey's own Delay block.",
+    "nl": "Pauzeert hier en laat de Flow daarna verder lopen. In een Advanced Flow draait de volgende kaart pas als deze klaar is, en dat maakt hem bruikbaar om iets te timen. In een gewone Flow lopen de Dan-kaarten niet op volgorde; gebruik deze kaart daar in de En-kolom. Maximaal 85 seconden: een Flow die langer wacht wordt door Homey beëindigd. Gebruik voor langere pauzes de ingebouwde Vertraging van Homey.",
+    "fr": "Met en pause ici et laisse la Flow continuer ensuite. Dans une Advanced Flow, la carte suivante s'exécute une fois celle-ci terminée, ce qui la rend utilisable pour synchroniser. Dans une Flow standard, les cartes Alors ne s'exécutent pas dans l'ordre : placez plutôt cette carte dans la colonne Et. Maximum 85 secondes : Homey met fin à une Flow qui attend plus longtemps. Pour des pauses plus longues, utilisez le bloc Délai de Homey."
+  },
+  "args": [
+    {
+      "name": "duration",
+      "type": "number",
+      "min": 1,
+      "step": 1,
+      "title": {
+        "en": "Duration",
+        "nl": "Looptijd",
+        "fr": "Durée"
+      },
+      "placeholder": {
+        "en": "e.g. 500",
+        "nl": "Bijv. 500",
+        "fr": "Par ex. 500"
+      }
+    },
+    {
+      "name": "unit",
+      "type": "dropdown",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "fr": "Unité"
+      },
+      "values": [
+        {
+          "id": "milliseconds",
+          "title": {
+            "en": "milliseconds",
+            "nl": "milliseconden",
+            "fr": "millisecondes"
+          }
+        },
+        {
+          "id": "seconds",
+          "title": {
+            "en": "seconds",
+            "nl": "seconden",
+            "fr": "secondes"
+          }
+        }
+      ]
+    }
+  ]
+}

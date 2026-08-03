@@ -1,0 +1,8 @@
+{
+  "error": {
+    "too_long": "Cette carte peut attendre au maximum __max__ secondes, car Homey met fin à une Flow qui attend plus longtemps. Utilisez le bloc Délai de Homey pour les pauses plus longues.",
+    "invalid_duration": "« __duration__ » n'est pas une durée. Indiquez un nombre supérieur à zéro.",
+    "unknown_unit": "Unité inconnue « __unit__ ». Choisissez millisecondes ou secondes.",
+    "aborted": "L'attente a été interrompue car l'app s'est arrêtée."
+  }
+}

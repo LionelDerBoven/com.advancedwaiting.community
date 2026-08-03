@@ -1,0 +1,63 @@
+{
+  "id": "wait_then_continue",
+  "title": {
+    "en": "Wait, then continue",
+    "nl": "Wacht en ga dan verder",
+    "fr": "Attendre, puis continuer"
+  },
+  "titleFormatted": {
+    "en": "Wait [[duration]] [[unit]], then continue",
+    "nl": "Wacht [[duration]] [[unit]] en ga dan verder",
+    "fr": "Attendre [[duration]] [[unit]], puis continuer"
+  },
+  "hint": {
+    "en": "For the And column of a standard Flow, which is the only place there where a pause can be inserted: the Then cards of a standard Flow are not run in order. Waits, then always answers yes, so the Flow continues. In an Advanced Flow use the Wait action card instead; a condition there splits the Flow into a yes and a no branch, and the no branch of this card is never taken.",
+    "nl": "Voor de En-kolom van een gewone Flow, de enige plek daar waar je een pauze kunt inbouwen: de Dan-kaarten van een gewone Flow lopen niet op volgorde. Wacht en antwoordt daarna altijd ja, zodat de Flow doorloopt. Gebruik in een Advanced Flow de actiekaart Wacht; een voorwaarde splitst daar de Flow in een ja- en een nee-tak, en de nee-tak van deze kaart komt nooit voor.",
+    "fr": "Pour la colonne Et d'une Flow standard, le seul endroit où l'on peut y insérer une pause : les cartes Alors d'une Flow standard ne s'exécutent pas dans l'ordre. Attend, puis répond toujours oui, afin que la Flow continue. Dans une Advanced Flow, utilisez plutôt la carte d'action Attendre ; une condition y divise la Flow en une branche oui et une branche non, et la branche non de cette carte ne se produit jamais."
+  },
+  "args": [
+    {
+      "name": "duration",
+      "type": "number",
+      "min": 1,
+      "step": 1,
+      "title": {
+        "en": "Duration",
+        "nl": "Looptijd",
+        "fr": "Durée"
+      },
+      "placeholder": {
+        "en": "e.g. 500",
+        "nl": "Bijv. 500",
+        "fr": "Par ex. 500"
+      }
+    },
+    {
+      "name": "unit",
+      "type": "dropdown",
+      "title": {
+        "en": "Unit",
+        "nl": "Eenheid",
+        "fr": "Unité"
+      },
+      "values": [
+        {
+          "id": "milliseconds",
+          "title": {
+            "en": "milliseconds",
+            "nl": "milliseconden",
+            "fr": "millisecondes"
+          }
+        },
+        {
+          "id": "seconds",
+          "title": {
+            "en": "seconds",
+            "nl": "seconden",
+            "fr": "secondes"
+          }
+        }
+      ]
+    }
+  ]
+}
