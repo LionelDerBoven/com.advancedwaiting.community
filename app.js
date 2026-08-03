@@ -9,7 +9,7 @@ const Waiter = require('./lib/Waiter');
  * Homey's own delay mechanisms start at one whole second: the Advanced Flow Delay
  * block and the per-card delay in standard Flows. This app adds the missing case -
  * a card that simply pauses a Flow for a sub-second amount of time and then lets it
- * carry on, without a HomeyScript runtime or a second Flow to continue in.
+ * carry on, in place, without the Flow having to be restarted from a second trigger.
  *
  * The run listener returns a promise that only settles once the wait is over, which
  * is what makes the next card wait for it. That is also the app's hard limit: Homey
