@@ -39,16 +39,20 @@ Measured on a Homey Pro (Early 2023), firmware 13.4.0, running 44 apps at load ~
 the gap between two notification cards in an identically shaped Advanced Flow, so the measurement
 overhead is the same across all rows.
 
-| Approach | 500 ms wait measured | Jitter |
+| Approach | 500 ms wait measured | Spread |
 |---|---|---|
 | Homey's built-in Delay, `"number": "0.5"` ¹ | 520, 522, 521 ms | 2 ms |
-| **This app** | see below | |
+| **This app** | **535, 526, 522 ms** | **13 ms** |
 | HomeyScript `await wait(500)` | 533, 526, 560 ms | 34 ms |
 | FlowBits timer + trigger (two cards) | 577 ms | — |
 
-Expect roughly 10–30 ms of overhead on top of the time you ask for. A wait never finishes *early* —
-`setTimeout` guarantees "at least this long" — so all drift is positive, and it grows when the Homey
-is busy. If you need a precise offset, measure once and subtract: ask for 480 ms to land on 500.
+Expect roughly 20–35 ms of overhead on top of the time you ask for. That overhead is one IPC hop
+between the flow engine and this app's process, which is why the engine's own Delay block is a touch
+tighter and why nothing running inside an app can close that last gap.
+
+A wait never finishes *early* — `setTimeout` guarantees "at least this long" — so all drift is
+positive, and it grows when the Homey is busy. If you need a precise landing point, measure once and
+subtract: ask for 475 ms to land on 500.
 
 ¹ Undocumented: Homey's built-in Delay stores its value as a string and honours fractions such as
 `0.5`, `0.1` and `0.05` when written through the API. It is the most accurate option available, but
