@@ -39,6 +39,26 @@ test('rejects units the cards do not offer', () => {
   }
 });
 
+test('rejects unit names inherited from Object.prototype', () => {
+  // A plain object would answer UNIT_MS['toString'] with a function, which is not
+  // undefined, so the unknown-unit guard would pass and the multiplication would
+  // give NaN - a wait of no time at all, reported as success. Hence the Map.
+  for (const unit of ['toString', '__proto__', 'constructor', 'valueOf', 'hasOwnProperty']) {
+    assert.throws(
+      () => Waiter.toMilliseconds(1, unit),
+      (err) => err.code === 'unknown_unit',
+      `expected ${unit} to be refused`,
+    );
+  }
+});
+
+test('never returns a duration that setTimeout would treat as zero', () => {
+  for (const [duration, unit] of [[1, 'milliseconds'], ['0.5', 'milliseconds'], [85, 'seconds']]) {
+    const ms = Waiter.toMilliseconds(duration, unit);
+    assert.ok(Number.isFinite(ms) && ms > 0, `${duration} ${unit} gave ${ms}`);
+  }
+});
+
 test('refuses waits past the ceiling, in either unit', () => {
   const overInSeconds = (Waiter.MAX_WAIT_MS / 1000) + 1;
   assert.throws(() => Waiter.toMilliseconds(overInSeconds, 'seconds'), (err) => err.code === 'too_long');
@@ -56,29 +76,40 @@ test('stays below the setTimeout overflow point, which fires immediately', () =>
 
 test('waits at least the requested time, never less', async () => {
   const started = Date.now();
-  await Waiter.wait(120);
+  await Waiter.wait(120).promise;
   assert.ok(Date.now() - started >= 118, 'a wait that undershoots is a bug; overshooting is only latency');
 });
 
-test('aborting rejects instead of resolving, so a Flow is not left hanging', async () => {
-  const controller = new AbortController();
-  const pending = Waiter.wait(60000, { signal: controller.signal });
-  controller.abort();
-  await assert.rejects(pending, (err) => err.code === 'aborted');
+test('cancelling rejects instead of resolving, so a Flow is not left hanging', async () => {
+  const { promise, cancel } = Waiter.wait(60000);
+  cancel();
+  await assert.rejects(promise, (err) => err.code === 'aborted');
 });
 
-test('a signal already aborted rejects immediately', async () => {
-  const controller = new AbortController();
-  controller.abort();
-  await assert.rejects(
-    Waiter.wait(60000, { signal: controller.signal }),
-    (err) => err.code === 'aborted',
-  );
+test('cancelling clears the timer, so nothing keeps the process alive', async () => {
+  let cleared = null;
+  const timers = {
+    setTimeout: () => 'handle-1',
+    clearTimeout: (handle) => {
+      cleared = handle;
+    },
+  };
+
+  const { promise, cancel } = Waiter.wait(60000, { timers });
+  cancel();
+  await assert.rejects(promise, (err) => err.code === 'aborted');
+  assert.strictEqual(cleared, 'handle-1');
 });
 
-test('a completed wait leaves no abort listener behind', async () => {
-  const controller = new AbortController();
-  await Waiter.wait(10, { signal: controller.signal });
-  // Aborting after the fact must not throw or resurrect anything.
-  controller.abort();
+test('cancelling after the wait finished is harmless', async () => {
+  const { promise, cancel } = Waiter.wait(10);
+  await promise;
+  cancel();
+  // A settled promise ignores a later reject, so this must not throw or produce an
+  // unhandled rejection.
+  await promise;
+});
+
+test('the concurrency cap leaves room for realistic use', () => {
+  assert.ok(Waiter.MAX_CONCURRENT >= 100);
 });

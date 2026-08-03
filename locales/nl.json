@@ -3,6 +3,7 @@
     "too_long": "Deze kaart kan maximaal __max__ seconden wachten, omdat Homey een Flow beëindigt die langer staat te wachten. Gebruik de ingebouwde Vertraging van Homey voor langere pauzes.",
     "invalid_duration": "\"__duration__\" is geen looptijd. Vul een getal groter dan nul in.",
     "unknown_unit": "Onbekende eenheid \"__unit__\". Kies milliseconden of seconden.",
+    "too_many": "Er wordt al __max__ keer tegelijk gewacht. Waarschijnlijk start een Flow zichzelf sneller opnieuw dan zijn eigen wachttijd kan aflopen.",
     "aborted": "Het wachten is afgebroken omdat de app is gestopt."
   }
 }

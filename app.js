@@ -19,7 +19,8 @@ const Waiter = require('./lib/Waiter');
 class AdvancedWaitingApp extends Homey.App {
 
   async onInit() {
-    // One controller per pending wait, so onUninit can let go of all of them.
+    // The cancel function of every wait still running, so onUninit can let go of
+    // all of them at once.
     this.pending = new Set();
 
     this.homey.flow.getActionCard('wait')
@@ -36,11 +37,27 @@ class AdvancedWaitingApp extends Homey.App {
 
   /**
    * Shared by both cards: validate, then block for that long.
+   *
+   * Everything is inside the one try, so that a wait cancelled by the app shutting
+   * down reaches the user in their own language too, rather than as the bare word
+   * its error code is named after.
    */
   async run({ duration, unit }) {
-    let ms;
     try {
-      ms = Waiter.toMilliseconds(duration, unit);
+      const ms = Waiter.toMilliseconds(duration, unit);
+
+      if (this.pending.size >= Waiter.MAX_CONCURRENT) {
+        throw new Waiter.WaitError('too_many', { max: Waiter.MAX_CONCURRENT });
+      }
+
+      const { promise, cancel } = Waiter.wait(ms, { timers: this.homey });
+      this.pending.add(cancel);
+
+      try {
+        await promise;
+      } finally {
+        this.pending.delete(cancel);
+      }
     } catch (err) {
       // Turn the library's error code into something the user reads in their own
       // language, in the Flow editor, on the card that caused it.
@@ -49,28 +66,19 @@ class AdvancedWaitingApp extends Homey.App {
       }
       throw err;
     }
-
-    const controller = new AbortController();
-    this.pending.add(controller);
-
-    try {
-      await Waiter.wait(ms, {
-        signal: controller.signal,
-        timers: this.homey,
-      });
-    } finally {
-      this.pending.delete(controller);
-    }
   }
 
   /**
-   * Abort every wait still in flight. Without this the app would shut down with
+   * Cancel every wait still in flight. Without this the app would shut down with
    * promises nobody will ever settle, holding their Flows open until Homey times
    * them out.
+   *
+   * Each cancel rejects a promise whose `finally` removes it from the set, but that
+   * runs a microtask later, so iterating here is safe.
    */
   async onUninit() {
-    for (const controller of this.pending) {
-      controller.abort();
+    for (const cancel of this.pending) {
+      cancel();
     }
     this.pending.clear();
   }

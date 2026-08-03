@@ -50,9 +50,29 @@ Expect roughly 20–35 ms of overhead on top of the time you ask for. That overh
 between the flow engine and this app's process, which is why the engine's own Delay block is a touch
 tighter and why nothing running inside an app can close that last gap.
 
+Measured at the card itself rather than between two notification cards, a 500 ms wait takes
+**506 ms** — so most of the 26 ms above is the measuring apparatus, not the wait.
+
 A wait never finishes *early* — `setTimeout` guarantees "at least this long" — so all drift is
 positive, and it grows when the Homey is busy. If you need a precise landing point, measure once and
 subtract: ask for 475 ms to land on 500.
+
+## Design notes
+
+Three things are deliberate rather than incidental:
+
+- **`UNIT_MS` is a `Map`, not an object literal.** A plain object inherits from `Object.prototype`,
+  so `UNIT_MS['toString']` returns a function rather than `undefined` — enough to pass an
+  `=== undefined` guard, multiply to `NaN`, slip past the ceiling check, and reach `setTimeout(NaN)`,
+  which fires immediately. That is a wait of no time at all reported as success. A `Map` can only
+  answer with what was put in it. Covered by a regression test.
+- **No `AbortController`.** Cancellation is a closure returned alongside the promise. The standard
+  approach allocates a controller plus a signal — an `EventTarget` — and adds and removes a listener
+  on every single wait, to do a job one closure does here.
+- **A concurrency cap** (`MAX_CONCURRENT`). Every wait holds a timer and a promise until it finishes,
+  so a Flow retriggering faster than its own wait can complete would pile them up without limit. The
+  cap is far above realistic use, so reaching it means a Flow is looping — and an error saying so is
+  more use than an out-of-memory restart.
 
 ¹ Undocumented: Homey's built-in Delay stores its value as a string and honours fractions such as
 `0.5`, `0.1` and `0.05` when written through the API. It is the most accurate option available, but

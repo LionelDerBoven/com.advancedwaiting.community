@@ -3,6 +3,7 @@
     "too_long": "This card can wait at most __max__ seconds, because Homey ends a Flow that has been waiting any longer. Use Homey's own Delay block for longer pauses.",
     "invalid_duration": "\"__duration__\" is not a duration. Fill in a number greater than zero.",
     "unknown_unit": "Unknown unit \"__unit__\". Choose milliseconds or seconds.",
+    "too_many": "Already waiting __max__ times at once. A Flow is most likely retriggering faster than its own wait can finish.",
     "aborted": "The wait was cancelled because the app stopped."
   }
 }
