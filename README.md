@@ -19,15 +19,25 @@ Unofficial community app. Not affiliated with Athom.
 
 Units are **milliseconds** and **seconds**. Nothing longer — see below.
 
-## Why no minutes, hours or days
+## The limit: 85 seconds, and why
 
 Homey terminates a Flow that has been waiting for roughly **89 seconds** ("flow timed out"). An app's
 card can only hold a Flow open by leaving its run listener's promise unresolved, so that ceiling is
 the hard limit for anything this app can do. Minutes would have exactly one valid value (1) and every
 larger one would take the Flow down with it, so the unit is not offered at all.
 
-The app refuses anything over **85 seconds** with an explanation, rather than letting Homey kill the
-Flow in a way that is hard to debug.
+This was measured, not assumed. On a Homey Pro (Early 2023), firmware 13.4.0:
+
+| Wait | Result |
+|---|---|
+| 85 s (this app) | Completed in 85116 ms |
+| 60 s (another app's blocking wait card) | Completed in 60019 ms |
+| 120 s (same card, same Flow shape) | **Never continued.** No error, no timeline entry, nothing |
+
+The failure is silent, which is what makes it dangerous: the cards after the wait simply never run.
+So this app **refuses anything over 85 seconds** with an error naming the limit, rather than
+accepting the value and letting the Flow disappear. That refusal is deliberate — an app that offered
+Minutes and Hours would look more capable while quietly breaking Flows.
 
 **For longer pauses, use Homey's built-in Delay block.** It is not subject to this limit at all,
 because it is a flow-engine node rather than a card: the engine schedules the continuation instead of
@@ -74,11 +84,51 @@ Three things are deliberate rather than incidental:
   cap is far above realistic use, so reaching it means a Flow is looping — and an error saying so is
   more use than an out-of-memory restart.
 
-¹ Undocumented: Homey's built-in Delay stores its value as a string and honours fractions such as
-`0.5`, `0.1` and `0.05` when written through the API. It is the most accurate option available, but
-the Homey app's input field refuses to accept a decimal point, so those values can only be written
-programmatically. This app exists to make sub-second waits something you can type into a card
-yourself, using a supported API that a firmware update will not quietly invalidate.
+¹ See the next section.
+
+## Hopefully this app becomes unnecessary
+
+**Homey can already do millisecond waits with its own Delay block.** The engine multiplies the stored
+value and hands it to a timer, and nothing in that path rounds or floors. The only obstacle is the
+input field in the Homey app, which refuses to accept a decimal point.
+
+The value is stored as a *string*:
+
+```json
+{ "type": "delay", "args": { "delay": { "number": "0.5", "multiplier": 1 } } }
+```
+
+`multiplier` is `1` for seconds, `60` for minutes, `3600` for hours. Write a fraction into `number`
+through the Web API and Homey honours it exactly. Measured on firmware 13.4.0:
+
+| Value written | Actual wait |
+|---|---|
+| `"0.5"` | 520, 522, 521 ms — spread of 2 ms |
+| `"0.1"` | ~100 ms |
+| `"0.05"` | ~50 ms |
+
+This is the most accurate sub-second wait available on Homey — better than this app can be, because
+there is no hop out to an app process. It also has no 85 second ceiling, since it is engine-scheduled.
+
+Three things are worth knowing before relying on it:
+
+- **The editor displays it correctly.** A Delay block holding `0.5` shows "0.5 sec" in the Flow
+  editor, and opening the Flow does not destroy the value. Only *typing* a decimal is blocked.
+- **You cannot author it in the app.** Delete the `.` and the field lets you edit again; you cannot
+  put it back. So these delays can only be created programmatically — via the Web API, a HomeyScript
+  using `Homey.flow`, or a tool that speaks the API on your behalf.
+- **It is undocumented.** Athom never advertised fractional delays, and the restriction looks like an
+  input mask that assumes whole units rather than a deliberate policy. If validation is ever added to
+  that field, existing fractional delays could silently become 0 or 1 second — the worst kind of
+  regression, because nothing would announce it.
+
+That last point is this app's whole reason to exist. It does the same job through a supported API, in
+a card you can type into yourself, that a firmware update will not quietly invalidate.
+
+**If Athom ever allows a decimal in the Delay block's input field, this app is obsolete and you should
+uninstall it.** That would be the better outcome: one less app, better accuracy, no ceiling, and
+nothing undocumented to depend on. Until then, the choice is between a card anyone can edit and a
+value only an API can write.
 
 ## Development
 
