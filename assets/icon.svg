@@ -1,13 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <!-- A stopwatch reading a fraction of a turn: the hand sits just past the top,
-       which is the whole point of the app - the part of a second Homey's own
-       Delay block cannot express. -->
+  <!-- A stopwatch whose hand sits just past the top: the fraction of a second that
+       Homey's own Delay block cannot express, which is what this app is for. -->
+  <!-- Filled geometry only. Homey draws the app icon from fills, so a stroked
+       outline renders as nothing at all and the icon falls back to a placeholder. -->
   <!-- Transparent background; Homey applies the brandColor circle. -->
-  <g fill="none" stroke="#FFFFFF" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="256" cy="296" r="160" />
-    <path d="M 208 56 L 304 56" />
-    <path d="M 256 56 L 256 136" />
-    <path d="M 256 296 L 256 200" />
-    <path d="M 256 296 L 322 330" />
-  </g>
+
+  <!-- The dial, as a ring: outer circle and inner circle, evenodd punching the hole. -->
+  <path fill="#FFFFFF" fill-rule="evenodd" d="
+    M 86 300 A 170 170 0 1 0 426 300 A 170 170 0 1 0 86 300 Z
+    M 120 300 A 136 136 0 1 0 392 300 A 136 136 0 1 0 120 300 Z
+  " />
+
+  <!-- Crown, stem, both hands and the pivot. Separate path so the overlaps here
+       union under nonzero winding instead of cancelling out under evenodd. -->
+  <path fill="#FFFFFF" d="
+    M 223 36 L 289 36 A 17 17 0 0 1 289 70 L 223 70 A 17 17 0 0 1 223 36 Z
+    M 239 62 L 273 62 L 273 140 L 239 140 Z
+    M 240 300 L 240 221 A 16 16 0 0 1 272 221 L 272 300 A 16 16 0 0 1 240 300 Z
+    M 264.23 286.28 L 334.23 328.28 A 16 16 0 0 1 317.77 355.72 L 247.77 313.72 A 16 16 0 0 1 264.23 286.28 Z
+    M 236 300 A 20 20 0 1 1 276 300 A 20 20 0 1 1 236 300 Z
+  " />
 </svg>
