@@ -62,6 +62,10 @@ homey app run                     # run live on your Homey
   error codes into translated messages (`locales/`).
 - `README.txt` / `README.nl.txt` / `README.fr.txt` — the App Store text.
 
+## Credits
+
+Built by LDB Technology, with [Claude](https://claude.com/claude-code) (Anthropic) as co-author.
+
 ## License
 
 [GPL-3.0-or-later](LICENSE)
