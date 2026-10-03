@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960" width="100%" height="100%">
   <!-- A stopwatch whose hand sits just past the top: the fraction of a second that
        Homey's own Delay block cannot express, which is what this app is for. -->
   <!-- Filled geometry only. Homey draws the app icon from fills, so a stroked
@@ -6,18 +6,9 @@
   <!-- Transparent background; Homey applies the brandColor circle. -->
 
   <!-- The dial, as a ring: outer circle and inner circle, evenodd punching the hole. -->
-  <path fill="#FFFFFF" fill-rule="evenodd" d="
-    M 86 300 A 170 170 0 1 0 426 300 A 170 170 0 1 0 86 300 Z
-    M 120 300 A 136 136 0 1 0 392 300 A 136 136 0 1 0 120 300 Z
-  " />
+  <path fill="#FFFFFF" fill-rule="evenodd" d="M 161.25 562.5 A 318.75 318.75 0 1 0 798.75 562.5 A 318.75 318.75 0 1 0 161.25 562.5 Z M 225 562.5 A 255 255 0 1 0 735 562.5 A 255 255 0 1 0 225 562.5 Z" />
 
   <!-- Crown, stem, both hands and the pivot. Separate path so the overlaps here
        union under nonzero winding instead of cancelling out under evenodd. -->
-  <path fill="#FFFFFF" d="
-    M 223 36 L 289 36 A 17 17 0 0 1 289 70 L 223 70 A 17 17 0 0 1 223 36 Z
-    M 239 62 L 273 62 L 273 140 L 239 140 Z
-    M 240 300 L 240 221 A 16 16 0 0 1 272 221 L 272 300 A 16 16 0 0 1 240 300 Z
-    M 264.23 286.28 L 334.23 328.28 A 16 16 0 0 1 317.77 355.72 L 247.77 313.72 A 16 16 0 0 1 264.23 286.28 Z
-    M 236 300 A 20 20 0 1 1 276 300 A 20 20 0 1 1 236 300 Z
-  " />
+  <path fill="#FFFFFF" d="M 418.12 67.5 L 541.88 67.5 A 31.88 31.88 0 0 1 541.88 131.25 L 418.12 131.25 A 31.88 31.88 0 0 1 418.12 67.5 Z M 448.12 116.25 L 511.88 116.25 L 511.88 262.5 L 448.12 262.5 Z M 450 562.5 L 450 414.38 A 30 30 0 0 1 510 414.38 L 510 562.5 A 30 30 0 0 1 450 562.5 Z M 495.43 536.77 L 626.68 615.52 A 30 30 0 0 1 595.82 666.98 L 464.57 588.23 A 30 30 0 0 1 495.43 536.77 Z M 442.5 562.5 A 37.5 37.5 0 1 1 517.5 562.5 A 37.5 37.5 0 1 1 442.5 562.5 Z" />
 </svg>
