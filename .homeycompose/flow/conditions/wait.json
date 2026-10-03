@@ -13,7 +13,7 @@
   "hint": {
     "en": "Pauses the Flow, then carries on. Use it in the And column of a standard Flow or anywhere in an Advanced Flow (connect only the yes output). Maximum 85 seconds.",
     "nl": "Pauzeert de Flow en gaat daarna verder. Gebruik in de En-kolom van een gewone Flow of overal in een Advanced Flow (verbind enkel de ja-uitgang). Maximaal 85 seconden.",
-    "fr": "Met la Flow en pause, puis continue. À utiliser dans la colonne Et d'une Flow standard ou n'importe où dans une Advanced Flow (ne connectez que la sortie oui). Maximum 85 secondes."
+    "fr": "Met le Flow en pause, puis continue. À utiliser dans la colonne Et d'un Flow standard ou n'importe où dans un Advanced Flow (ne connectez que la sortie oui). Maximum 85 secondes."
   },
   "args": [
     {
@@ -23,7 +23,7 @@
       "step": 1,
       "title": {
         "en": "Duration",
-        "nl": "Looptijd",
+        "nl": "Duur",
         "fr": "Durée"
       },
       "placeholder": {

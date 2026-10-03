@@ -1,6 +1,6 @@
 {
   "id": "com.advancedwaiting.community",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": ">=12.4.0",
   "sdk": 3,
   "runtime": "nodejs",
@@ -13,9 +13,9 @@
     "fr": "Attente avancée"
   },
   "description": {
-    "en": "Pauses a Flow for a number of milliseconds or seconds and then lets it carry on. Homey's own Delay starts at one whole second, so for anything shorter there is no card at all. This one simply waits, in the middle of the Flow, so the next card runs after it. Because Homey ends a Flow that has been waiting for about ninety seconds, longer waits are refused with an explanation rather than silently breaking the Flow. Unofficial community app.",
-    "nl": "Pauzeert een Flow een aantal milliseconden of seconden en laat hem daarna verder lopen. De ingebouwde Vertraging van Homey begint pas bij één hele seconde, dus voor alles wat korter is bestaat er geen kaart. Deze wacht gewoon, midden in de Flow, zodat de volgende kaart erna draait. Omdat Homey een Flow beëindigt die ongeveer negentig seconden staat te wachten, worden langere wachttijden geweigerd met uitleg in plaats van de Flow stil te breken. Onofficiële community-app.",
-    "fr": "Met une Flow en pause pendant un nombre de millisecondes ou de secondes, puis la laisse continuer. Le bloc Délai de Homey commence à une seconde entière : pour tout ce qui est plus court, aucune carte n'existe. Celle-ci attend simplement, au milieu de la Flow, afin que la carte suivante s'exécute après elle. Comme Homey met fin à une Flow qui attend depuis environ quatre-vingt-dix secondes, les attentes plus longues sont refusées avec une explication plutôt que de casser la Flow en silence. App communautaire non officielle."
+    "en": "Pause your Flow down to the millisecond",
+    "nl": "Pauzeer je Flow tot op de milliseconde",
+    "fr": "Mettez votre Flow en pause à la milliseconde près"
   },
   "brandColor": "#F2A33C",
   "category": [
@@ -30,5 +30,10 @@
   "author": {
     "name": "LDB Technology",
     "email": "homey@ldbtechnology.be"
+  },
+  "support": "mailto:support@ldbtechnology.be",
+  "source": "https://github.com/LionelDerBoven/com.advancedwaiting.community",
+  "bugs": {
+    "url": "https://github.com/LionelDerBoven/com.advancedwaiting.community/issues"
   }
 }

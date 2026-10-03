@@ -1,0 +1,3 @@
+Le Délai intégré de Homey commence à une seconde entière. Attente avancée ajoute ce qui manque : une carte Attendre qui met un Flow en pause pendant un nombre de millisecondes ou de secondes, puis le laisse continuer à l'endroit même, de sorte que la carte suivante s'exécute simplement après elle. Utilisez-la dans la colonne Et d'un Flow standard, ou n'importe où dans un Advanced Flow.
+
+Homey arrête un Flow qui attend depuis environ quatre-vingt-dix secondes. Cette carte accepte donc au maximum 85 secondes et explique pourquoi si vous demandez davantage, plutôt que de laisser le Flow s'interrompre en silence. Pour des pauses plus longues, utilisez le Délai intégré de Homey.

@@ -1,0 +1,3 @@
+De ingebouwde Vertraging van Homey begint bij één hele seconde. Geavanceerd wachten voegt toe wat ontbreekt: een Wacht-kaart die een Flow een aantal milliseconden of seconden pauzeert en hem daarna op dezelfde plek laat verdergaan, zodat de volgende kaart gewoon daarna draait. Gebruik de kaart in de En-kolom van een gewone Flow of overal in een Advanced Flow.
+
+Homey stopt een Flow die ongeveer negentig seconden staat te wachten. Daarom accepteert deze kaart maximaal 85 seconden en legt hij uit waarom als je meer vraagt, in plaats van de Flow stil te laten vastlopen. Gebruik voor langere pauzes de ingebouwde Vertraging van Homey.
