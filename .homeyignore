@@ -3,7 +3,6 @@
 # README*.txt; README.md is for GitHub only.
 /README.md
 /test/
-/tools/
 /package-lock.json
 /tsconfig.json
 /.eslintrc.json
