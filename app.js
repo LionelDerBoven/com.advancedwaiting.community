@@ -23,10 +23,7 @@ class AdvancedWaitingApp extends Homey.App {
     // all of them at once.
     this.pending = new Set();
 
-    this.homey.flow.getActionCard('wait')
-      .registerRunListener((args) => this.run(args));
-
-    this.homey.flow.getConditionCard('wait_then_continue')
+    this.homey.flow.getConditionCard('wait')
       .registerRunListener(async (args) => {
         await this.run(args);
         return true;
@@ -36,7 +33,7 @@ class AdvancedWaitingApp extends Homey.App {
   }
 
   /**
-   * Shared by both cards: validate, then block for that long.
+   * Validate, then block for that long.
    *
    * Everything is inside the one try, so that a wait cancelled by the app shutting
    * down reaches the user in their own language too, rather than as the bare word

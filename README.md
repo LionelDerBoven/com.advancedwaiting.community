@@ -9,12 +9,14 @@ restarted from a separate trigger.
 
 Unofficial community app. Not affiliated with Athom.
 
-## Cards
+## Card
 
-| Kind | Card | Where to use it |
-|---|---|---|
-| Action (THEN) | **Wait** *500 milliseconds* | Advanced Flows. The next card runs once this one finishes. |
-| Condition (AND) | **Wait, then continue** *500 milliseconds* | The **And** column of a standard Flow — the only place there where a pause can be inserted, because a standard Flow's Then cards are not run in order. Always answers yes. |
+One condition card, **Wait** *500 milliseconds*, that works in both kinds of Flow and always answers yes:
+
+- **Standard Flow:** put it in the **And** column. It is the only place there where a pause can be
+  inserted, because a standard Flow's Then cards are not run in order.
+- **Advanced Flow:** place it anywhere in the Flow and connect only its **yes** output. The **no**
+  output is never taken.
 
 Units are **milliseconds** and **seconds**. Nothing longer — see below.
 
